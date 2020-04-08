@@ -37,6 +37,7 @@ target 'dstnd' do
   pod 'Folly', :podspec => "#{rnPrefix}/third-party-podspecs/Folly.podspec"
 
   # Other native modules
+  pod 'react-native-webrtc', :path => '../node_modules/react-native-webrtc'
 
   # Automatically detect installed unimodules
   use_unimodules!

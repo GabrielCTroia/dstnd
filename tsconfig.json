@@ -1,12 +1,23 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
+    "target": "es5",
     "jsx": "react-native",
     "lib": ["dom", "esnext"],
     "moduleResolution": "node",
     "noEmit": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "strict": true
+    "noErrorTruncation": false,
+    "strict": true,
+    "strictNullChecks": true,
+    "baseUrl": "./",
+    "paths": {
+      "src/*": ["src/*"],
+      "redux-thunk": ["typings/redux-thunk"]
+    },
+    "types": [
+      "jest"
+    ]
   }
 }
