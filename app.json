@@ -22,7 +22,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-    }
+      "supportsTablet": true,
+      "bundleIdentifier": "com.smalldeskideas.dstnd"
+    },
+    "android": {
+      "package": "com.smalldeskideas.dstnd"
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
   }
 }
