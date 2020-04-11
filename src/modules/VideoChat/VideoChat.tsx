@@ -4,7 +4,9 @@ import { WebRTC } from 'src/services/webrtc/web';
 import { Video } from 'src/components/Video/Video';
 
 
-type Props = {};
+type Props = {
+  rtc: WebRTC,
+};
 
 export const VideoChat:React.FunctionComponent<Props> = (props) => {
   const [ localStream, setLocalStream ] = useState<MediaStream | null>(null);
@@ -12,21 +14,22 @@ export const VideoChat:React.FunctionComponent<Props> = (props) => {
 
   useEffect(() => {
     (() => {
-      const rtc = WebRTC.start();
+      // const rtc = WebRTC.start();
 
-      const destroyOnLocalStreamListener = rtc.onLocalStreamStart((stream) => {
+      const destroyOnLocalStreamListener = props.rtc.onLocalStreamStart((stream) => {
         // console.log()
-        // console.log('local stream starting', stream);
-
+        console.log('local stream starting', stream);
         setLocalStream(stream);
       });
 
-      const destroyOnRemoteStreamListener = rtc.onRemoteStreamStart((stream) => {
+      const destroyOnRemoteStreamListener = props.rtc.onRemoteStreamStart((stream) => {
         console.log('on remote stream started', stream);
+        setRemoteStream(stream);
       })
 
       return () => {
         destroyOnLocalStreamListener();
+        destroyOnRemoteStreamListener();
       }
 
       // setVideoSrc(stream);

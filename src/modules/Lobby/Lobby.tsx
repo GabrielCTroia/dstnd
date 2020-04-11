@@ -5,7 +5,8 @@ import { Peer } from 'src/records/Peer';
 type Props = {
   me: string;
   peers: Peer[];
-  onCall: (peer: Peer) => void;
+  onPeerPress: (peer: Peer) => void;
+  // sendPeerMsg: () => void;
 };
 
 export const Lobby:React.FunctionComponent<Props> = (props) => {
@@ -16,7 +17,7 @@ export const Lobby:React.FunctionComponent<Props> = (props) => {
         <View key={peer.address}>
           <Button 
             title={`Ring ${peer.address}`}
-            onPress={() => props.onCall(peer)}
+            onPress={() => props.onPeerPress(peer)}
             disabled={peer.address === props.me}
           />
         </View>
