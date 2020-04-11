@@ -171,6 +171,12 @@
 			attributes = {
 				LastUpgradeCheck = 940;
 				ORGANIZATIONNAME = Facebook;
+				TargetAttributes = {
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = PX87EJ4CZ5;
+						ProvisioningStyle = Manual;
+					};
+				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "dstnd" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -329,8 +335,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = dstnd/dstnd.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = PX87EJ4CZ5;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = dstnd/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -338,8 +348,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.smalldeskideas.dstnd;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lularides.lulamobile.dev;
 				PRODUCT_NAME = dstnd;
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.lularides.lulamobile.dev";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -350,7 +361,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = dstnd/dstnd.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PX87EJ4CZ5;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = dstnd/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -358,8 +373,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.smalldeskideas.dstnd;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lularides.lulamobile.dev;
 				PRODUCT_NAME = dstnd;
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.lularides.lulamobile.dev";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
