@@ -109,8 +109,6 @@ export const getWebRTC = (signaling: SignalingChannel) => {
           stream.getTracks().forEach((track) => pc.addTrack(track, stream));
           await pc.setLocalDescription(await pc.createAnswer());
 
-          // Hack because when the peer is getting the offer it doesn't have a "me"!
-          // Need to think of a better strategy to do this!
           signaling.send(peer, { desc: pc.localDescription });
         } else if (msg.desc.type === 'answer') {
           await pc.setRemoteDescription(msg.desc);

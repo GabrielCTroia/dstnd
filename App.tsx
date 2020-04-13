@@ -26,8 +26,8 @@ export default function App() {
   return (
     <View style={styles.container}>
       <WebSocketProvider 
-        // url="ws://127.0.0.1:7777/ws"
-        url="wss://b16fc48c.ngrok.io/ws"
+        url="ws://127.0.0.1:7777/ws"
+        // url="wss://b16fc48c.ngrok.io/ws"
         onMessage={(e) => {
           // console.log('Message received', e);
 
