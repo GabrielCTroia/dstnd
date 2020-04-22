@@ -7,8 +7,13 @@
   },
   "dependencies": {
     "@andyet/simplewebrtc": "^1.17.1",
+    "@types/chess.js": "^0.10.1",
     "@types/pubsub-js": "^1.5.18",
     "@types/react-native-webrtc": "^1.75.1",
+    "axios": "^0.19.2",
+    "axios-logger": "^2.3.1",
+    "chess.js": "^0.10.3",
+    "chessboardjsx": "^2.4.2",
     "expo": "~37.0.3",
     "expo-av": "^8.1.0",
     "expo-updates": "~0.1.0",
