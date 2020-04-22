@@ -38,4 +38,4 @@ TBD
 
 # Contributing
 
-See [the Cotributing Guide](Contributing_Guide.md)
+See the [Cotributing Guide](Contributing_Guide.md).

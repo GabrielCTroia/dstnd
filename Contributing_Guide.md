@@ -109,6 +109,8 @@ Writing components code
 
 ## Version Control
 
+Follows [Git Flow](https://datasift.github.io/gitflow/IntroducingGitFlow.html).
+
 ### Commiting
 We use [Commitizen](https://www.npmjs.com/package/commitizen) to ensure all the messages are formatted using the same standard. This ensures readability down the line, and we could also automate actions based on the commits later on. But most importantly it ensure consistentcy across the whole team.
 
