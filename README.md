@@ -36,3 +36,6 @@ Protocol: WebSocket, REST.
 
 TBD
 
+# Contributing
+
+See the [Cotributing Guide](Contributing_Guide.md).

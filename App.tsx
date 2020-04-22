@@ -9,6 +9,7 @@ import { fold, left } from 'fp-ts/lib/Either';
 import { pipe } from 'fp-ts/lib/pipeable';
 import { PathReporter } from 'io-ts/lib/PathReporter';
 import { VideoChat } from 'src/modules/VideoChat';
+import { StorybookContainer } from 'storybook/StorybookContainer';
 
 type CallingPeer = {
   calling: false;
@@ -17,11 +18,17 @@ type CallingPeer = {
   peer: Peer;
 }
 
+const SHOW_STORYBOOK = true;
+
 export default function App() {
   const [me, setMe] = useState<null | string>(null);
   const [peers, setPeers] = useState<Peer[]>([]);
   const [peerIsCalling, setPeerIsCalling] = useState<CallingPeer>({ calling: false });
   // const [peersCount, setPeersCount] = useState(0);
+
+  if (SHOW_STORYBOOK) {
+    return <StorybookContainer />;
+  }
 
   return (
     <View style={styles.container}>
