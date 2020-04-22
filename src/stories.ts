@@ -1,0 +1,1 @@
+export * from './modules/Games/Chess/ChessGame.story';
