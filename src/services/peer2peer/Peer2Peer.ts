@@ -50,6 +50,21 @@ export class Peer2Peer {
     // this.signal.onPeerStatusUpdate()
   }
 
+  joinRoom(roomId: string) {
+    this.signal.joinRoom(roomId);
+  }
+
+  // send = (signal: WssSignalingChannel) => {
+  //   const oldSend = signal.send;
+
+  //   // signal.send = (...args) => {
+  //   //   oldSend(...args);
+  //   // }
+  //   Object.assign
+  // }
+
+  
+
   close() {
     this.rtc.close();
     this.signal.close();

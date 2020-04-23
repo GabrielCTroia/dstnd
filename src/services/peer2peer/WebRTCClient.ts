@@ -105,8 +105,6 @@ export class WebRTCClient {
   }
 
   async start() {
-    console.log('WebRTCClient.start', this, this.streamingConstraints);
-
     // Don't start it multiple times.
     if (this.started) {
       return;

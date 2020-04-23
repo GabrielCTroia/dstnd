@@ -1,7 +1,11 @@
+import { isLeft } from 'fp-ts/lib/Either';
+import {
+  PeerNetworkRefreshPayload,
+  wsMessageRecord,
+  WebRtcNegotationPayload,
+  JoinRoomPayloadRecord,
+} from './records/SignalingPayload';
 import { SignalingChannel, SignalingMessage } from './SignallingChannel';
-import { wsMessageRecord, P2PCommunicationMessageRecord } from 'src/records/WSMessage';
-import { isRight, isLeft } from 'fp-ts/lib/Either';
-import { PeerNetworkRefreshPayload } from './records/SignalingPayload';
 
 
 export class WssSignalingChannel implements SignalingChannel {
@@ -26,19 +30,21 @@ export class WssSignalingChannel implements SignalingChannel {
         return;
       }
 
-      if (result.right.msg_type === 'p2p_communication') {
+      if (result.right.msg_type === 'webrtc_negotiation') {
         const msg = result.right;
 
         // TODO: Use io-ts
         const payload = JSON.parse(msg.content.forward) as SignalingMessage;
 
         this.onmessage({
-          peer_address: msg.content.peer_address,
+          // peer_address: msg.content.peer_address,
           ...payload,
         });
       } 
       else if (result.right.msg_type === 'peer_network_refresh') {
         const msg = result.right;
+
+        console.log('msg', msg);
 
         this.onPeerStatusUpdate?.(msg);
       }
@@ -46,17 +52,14 @@ export class WssSignalingChannel implements SignalingChannel {
   }
 
   send(forward: {[k: string]: unknown}) {
-    const payload: P2PCommunicationMessageRecord = {
-      msg_type: 'p2p_communication',
+    const payload: WebRtcNegotationPayload = {
+      msg_type: 'webrtc_negotiation',
       content: {
-        peer_address: 'fake address', // take out
         forward: JSON.stringify(forward),
       },
     };
     
     const msg = JSON.stringify(payload);
-
-    console.log('WssSignalingChannel.send', msg)
 
     this.connection.send(msg);
   }
@@ -64,4 +67,21 @@ export class WssSignalingChannel implements SignalingChannel {
   close() {
     this.connection.close();
   }
+
+  // TODO: This could be split into a different handler since it's not really part of the signaling channel
+  //  but it just so happens to work over the same protocol/connection
+  joinRoom(roomId: string) {
+    const payload: JoinRoomPayloadRecord = {
+      msg_type: 'join_room',
+      content: {
+        room_id: roomId,
+      },
+    }
+
+    const str = JSON.stringify(payload);
+
+    console.log('join room msg', str);
+
+    this.connection.send(str);
+}
 }
