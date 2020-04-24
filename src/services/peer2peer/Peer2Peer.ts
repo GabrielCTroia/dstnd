@@ -2,6 +2,9 @@ import { WssSignalingChannel } from './WssSignalingChannel';
 import { WebRTCClient } from './WebRTCClient';
 import PubSub from 'pubsub-js';
 import { PeerNetworkRefreshPayload } from './records/SignalingPayload';
+import * as api from './api';
+import { joinRoomResponsePayload } from './records/httpPayload';
+import { isLeft, isRight } from 'fp-ts/lib/Either';
 
 
 export class Peer2Peer {
@@ -50,8 +53,18 @@ export class Peer2Peer {
     // this.signal.onPeerStatusUpdate()
   }
 
-  joinRoom(roomId: string) {
-    this.signal.joinRoom(roomId);
+  async joinRoom({ roomId, peerId }: {roomId: string, peerId: string}) {
+    (await api.joinRoom({ room_id: roomId, peer_id: peerId }))
+      .map((body) => {      
+        console.log('worked', body);
+
+        this.rtc.addPeer(peerId);
+
+        PubSub.publish(Peer2Peer.PUBSUB_CHANNELS.onPeerStatusUpdate, body);
+      })
+      .mapErr((e) => {
+        console.log('err', e);
+      })
   }
 
   // send = (signal: WssSignalingChannel) => {

@@ -10,8 +10,7 @@ type Props = {
   wssUrl: string;
   iceServersURLs: string[]; 
   render: (p: {
-    // p2p: Peer2Peer,
-    joinRoom: (id: string) => void;
+    joinRoom: (p: {roomId: string, peerId: string}) => void;
     start: () => void;
     peerStatus: PeerNetworkRefreshPayload['content'],
     isConnectionReady: boolean;
@@ -39,6 +38,7 @@ export class Peer2PeerProvider extends React.Component<Props, State> {
   state: State = {
     isConnectionReady: false,
     peerStatus: {
+      me: '',
       peers: {},
       count: 0,
       all_rooms: {},
@@ -109,8 +109,8 @@ export class Peer2PeerProvider extends React.Component<Props, State> {
       <>
         {this.props.render({
           // p2p: this.p2p,
-          joinRoom: (id: string) => {
-            this.p2p?.joinRoom(id);
+          joinRoom: (params) => {
+            this.p2p?.joinRoom(params);
           },
           start: () => {
             if (!this.state.peerStatus.joined_room) {

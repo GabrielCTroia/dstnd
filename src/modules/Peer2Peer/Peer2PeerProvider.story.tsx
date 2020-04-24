@@ -17,6 +17,7 @@ storiesOf('Peer2Peer', module)
           {peerStatus.joined_room 
           ? (
             <View>
+              <Text>Me: {peerStatus.me}</Text>
               <Text>Room Joined {peerStatus.joined_room.id}</Text>
               <Text>Room Peer Count: {Object.keys(peerStatus.joined_room.peers).length}</Text>
               <Text>Room Peers Online: {Object.keys(peerStatus.joined_room.peers).map((peer) => (
@@ -25,15 +26,37 @@ storiesOf('Peer2Peer', module)
                   </View>
                 ))}
               </Text>
-              <Button 
-                title="Start Chat"
-                onPress={start}
-              />
-              {localStream && (
-                <VideoChat
-                  title="Local" 
-                  stream={localStream}
-                />
+              <View style={{
+                display: 'flex',
+                flexDirection: 'row',
+              }}>
+                {localStream 
+                  ? (
+                    <Button
+                      title="Stop Chat"
+                      onPress={start}
+                      color="red"
+                    />
+                  ) 
+                  : (
+                    <Button
+                      title="Start Chat"
+                      onPress={start}
+                    />
+                  )
+                }
+              </View>
+                {localStream && (
+                  <View style={{
+                    height: 200,
+                    display: 'flex',
+                    flexDirection: 'row',
+                  }}>
+                    <VideoChat
+                      title={`Local`}
+                      stream={localStream}
+                    />
+                </View>
               )}
               <View style={{
                 height: 200,
@@ -55,6 +78,7 @@ storiesOf('Peer2Peer', module)
               {/* <TouchableOpacity onPress={() => joinRoom()}>
                 <Text>Start P2P</Text> */}
               {/* </TouchableOpacity> */}
+              <Text>Me: {peerStatus.me}</Text>
               <Text>All Peer Count: {peerStatus.count}</Text>
               <Text>All Peers Online: {Object.keys(peerStatus.peers).map((peer) => (
                   <View key={peer}>
@@ -65,11 +89,19 @@ storiesOf('Peer2Peer', module)
               <View style={{ display: 'flex' }}>
                 <Text>Rooms:</Text>
                 {Object.keys(peerStatus.all_rooms).map((room) => (
-                  <Button 
+                  <View
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                    }}
                     key={room}
-                    title={`Join ${room} Room`}
-                    onPress={() => joinRoom(room)}
-                  />
+                  >
+                    <Button
+                      title={`Join ${room} Room`}
+                      onPress={() => joinRoom({roomId: room, peerId: peerStatus.me})}
+                      color="orange"
+                    />
+                  </View>
                 ))}
               </View>
             </>

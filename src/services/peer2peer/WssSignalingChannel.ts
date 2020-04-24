@@ -3,7 +3,6 @@ import {
   PeerNetworkRefreshPayload,
   wsMessageRecord,
   WebRtcNegotationPayload,
-  JoinRoomPayloadRecord,
 } from './records/SignalingPayload';
 import { SignalingChannel, SignalingMessage } from './SignallingChannel';
 
@@ -52,20 +51,5 @@ export class WssSignalingChannel implements SignalingChannel {
 
   close() {
     this.connection.close();
-  }
-
-  // TODO: This could be split into a different handler since it's not really part of the signaling channel
-  //  but it just so happens to work over the same protocol/connection
-  joinRoom(roomId: string) {
-    const payload: JoinRoomPayloadRecord = {
-      msg_type: 'join_room',
-      content: {
-        room_id: roomId,
-      },
-    }
-
-    const str = JSON.stringify(payload);
-
-    this.connection.send(str);
   }
 }
