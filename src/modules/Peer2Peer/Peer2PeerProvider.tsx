@@ -1,6 +1,9 @@
 import React, { ReactNode } from 'react';
 import { Peer2Peer } from 'src/services/peer2peer';
-import { PeerNetworkRefreshPayload, RoomRecord } from 'src/services/peer2peer/records/SignalingPayload';
+import {
+  PeerNetworkRefreshPayload,
+  RoomRecord,
+} from 'src/services/peer2peer/records/SignalingPayload';
 
 
 type Props = {
@@ -114,7 +117,7 @@ export class Peer2PeerProvider extends React.Component<Props, State> {
               throw new Error('Peer2Peer Error: Cannot run start before joinging a room!');
             }
 
-            this.p2p?.start();
+            this.p2p?.startStreaming();
           },
           peerStatus: this.state.peerStatus,
           isConnectionReady: this.state.isConnectionReady,

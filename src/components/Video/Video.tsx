@@ -1,5 +1,6 @@
 import React, { Component, RefObject } from 'react';
 import { Video as ExpoVideo, VideoProps } from 'expo-av';
+import { View } from 'react-native';
 
 type Props = VideoProps & ({
   source: VideoProps['source'];
@@ -43,14 +44,16 @@ export class Video extends Component<Props> {
       //   source={this.props.srcObject}
       //   {...this.props}
       // />
-      <video 
-        autoPlay
-        // src={this.props.src}
-        muted={this.props.isMuted}
-        playsInline
-        ref={this.videoRef}
-        // {...this.props}
-      />
+      <View style={this.props.style}>
+        <video
+          autoPlay
+          muted={this.props.isMuted}
+          playsInline
+          ref={this.videoRef}
+          style={{width: '100%'}}
+          // {...this.props}
+        />
+      </View>
     )
   }
 }

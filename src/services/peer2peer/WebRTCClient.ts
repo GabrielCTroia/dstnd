@@ -79,15 +79,10 @@ export class WebRTCClient {
   }
 
   private async onSignallingOffer(msg: SignalingMessageWithDescription) {
+    console.log('WebRTC.onSignalingOffer', msg);
     await this.connection.setRemoteDescription(msg.desc);
 
-    const stream = await navigator.mediaDevices.getUserMedia(
-      this.streamingConstraints
-    );
-
-    stream.getTracks().forEach((track) => {
-      this.connection.addTrack(track, stream);
-    });
+    this.startStreaming();
 
     await this.connection.setLocalDescription(
       await this.connection.createAnswer()
@@ -97,14 +92,16 @@ export class WebRTCClient {
   }
 
   private async onSignalingAnswer(msg: SignalingMessageWithDescription) {
+    console.log('WebRTC.onSignalingAnswer', msg);
     await this.connection.setRemoteDescription(msg.desc);
   }
 
   private async onSignalingCandidate(msg: SignalingMessageWithCandidate) {
+    console.log('WebRTC.onSignalingCandidate', msg);
     await this.connection.addIceCandidate(msg.candidate);
   }
 
-  async start() {
+  async startStreaming() {
     // Don't start it multiple times.
     if (this.started) {
       return;

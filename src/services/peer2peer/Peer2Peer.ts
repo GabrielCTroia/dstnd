@@ -13,7 +13,7 @@ export class Peer2Peer {
   private signal: WssSignalingChannel;
   private rtc: WebRTCClient;
 
-  start: typeof WebRTCClient.prototype.start;
+  startStreaming: typeof WebRTCClient.prototype.startStreaming;
   onLocalStreamStart: typeof WebRTCClient.prototype.onLocalStreamStart;
   onRemoteStreamStart: typeof WebRTCClient.prototype.onRemoteStreamStart;
   onData: typeof WebRTCClient.prototype.onData;
@@ -26,7 +26,7 @@ export class Peer2Peer {
     
     this.rtc = new WebRTCClient(config.iceServers, this.signal);
 
-    this.start = this.rtc.start.bind(this.rtc);
+    this.startStreaming = this.rtc.startStreaming.bind(this.rtc);
     this.onLocalStreamStart = this.rtc.onLocalStreamStart.bind(this.rtc);
     this.onRemoteStreamStart = this.rtc.onRemoteStreamStart.bind(this.rtc)
     this.onData = this.rtc.onData.bind(this.rtc);

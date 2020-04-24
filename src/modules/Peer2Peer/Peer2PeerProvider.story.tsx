@@ -30,18 +30,24 @@ storiesOf('Peer2Peer', module)
                 onPress={start}
               />
               {localStream && (
-                <VideoChat 
+                <VideoChat
                   title="Local" 
                   stream={localStream}
                 />
               )}
-              {remoteStreams?.map((stream, index) => (
-                <VideoChat 
-                  key={index}
-                  title={`Remote ${index}`}
-                  stream={stream}
-                />
-              ))}
+              <View style={{
+                height: 200,
+                display: 'flex',
+                flexDirection: 'row',
+              }}>
+                {remoteStreams?.map((stream, index) => (
+                  <VideoChat
+                    key={index}
+                    title={`Remote ${index}`}
+                    stream={stream}
+                  />
+                ))}
+              </View>
             </View>
           ) : (
             <>
