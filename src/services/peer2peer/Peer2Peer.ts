@@ -26,7 +26,6 @@ export class Peer2Peer {
 
   onLocalStreamStart: (fn: (stream: MediaStream) => void) => () => void;
   onLocalStreamStop: (fn: () => void) => () => void;
-  // onRemoteStreamStart: typeof WebRTCClient.prototype.onRemoteStreamStart;
   // onData: typeof WebRTCClient.prototype.onData;
 
   constructor(
