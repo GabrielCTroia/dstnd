@@ -7,6 +7,8 @@ import {
 import PubSub from 'pubsub-js';
 
 
+
+// @Deprecated in favor of WebRTCRemote Connection
 export class WebRTCClient {
   static PUBSUB_CHANNELS = {
     onLocalStream: 'ON_LOCAL_STREAM',
@@ -51,26 +53,27 @@ export class WebRTCClient {
   private ontrack(peerId: string, event: RTCTrackEvent) {
     PubSub.publish(
       WebRTCClient.PUBSUB_CHANNELS.onRemoteStream,
-      event.streams[0],
+      {
+        peerId,
+        stream: event.streams[0],
+      }
     );
   }
 
   private async onmessage(peerId: string, msg: SignalingMessage) {
     // TODO: Type this using io-ts
     try {
-      const connection = this.peerConnections[peerId];
-
       if (msg.desc) {
         // if we get an offer, we need to reply with an answer
         if (msg.desc.type === "offer") {
           this.onSignallingOffer(peerId, msg);
         } else if (msg.desc.type === "answer") {
-          this.onSignalingAnswer(connection, msg);
+          this.onSignalingAnswer(peerId, msg);
         } else {
           console.log("Unsupported SDP type.", msg.desc);
         }
       } else if (msg.candidate) {
-        this.onSignalingCandidate(connection, msg);
+        this.onSignalingCandidate(peerId, msg);
       }
     } catch (err) {
       console.error("Signaling onmessage Error", err);
@@ -95,7 +98,7 @@ export class WebRTCClient {
         this.peerConnections[peerId].addTrack(track, localStream);
       });
 
-    this.startLocalStreaming(localStream);
+    this.notifyLocalStreamingStarted(localStream);
   
     await connection.setLocalDescription(
       await connection.createAnswer()
@@ -105,17 +108,21 @@ export class WebRTCClient {
   }
 
   private async onSignalingAnswer(
-    connection: RTCPeerConnection,
+    peerId: string,
     msg: SignalingMessageWithDescription,
   ) {
+    const connection = this.peerConnections[peerId];
+
     console.log('WebRTC.onSignalingAnswer', msg);
     await connection.setRemoteDescription(msg.desc);
   }
 
   private async onSignalingCandidate(
-    connection: RTCPeerConnection,
+    peerId: string,
     msg: SignalingMessageWithCandidate,
   ) {
+    const connection = this.peerConnections[peerId];
+
     console.log('WebRTC.onSignalingCandidate', msg);
     await connection.addIceCandidate(msg.candidate);
   }
@@ -131,7 +138,7 @@ export class WebRTCClient {
     return this.localStream;
   }
 
-  startLocalStreaming(stream: MediaStream) {
+  notifyLocalStreamingStarted(stream: MediaStream) {
     if (this.localStreamingStarted) {
       return false;
     }
@@ -159,7 +166,7 @@ export class WebRTCClient {
           }
         ));
 
-      this.startLocalStreaming(localStream);
+      this.notifyLocalStreamingStarted(localStream);
     } catch (err) {
       console.error(err);
     }
@@ -183,10 +190,13 @@ export class WebRTCClient {
     }
   }
 
-  onRemoteStreamStart(fn: (stream: MediaStream) => void) {
+  onRemoteStreamStart(fn: (peerId: string, stream: MediaStream) => void) {
     const token = PubSub.subscribe(
       WebRTCClient.PUBSUB_CHANNELS.onRemoteStream, 
-      (_: string, stream: MediaStream) => fn(stream)
+      (
+        _: string, 
+        { peerId, stream }: { peerId: string, stream: MediaStream },
+      ) => fn(peerId, stream),
     );
 
     // unsubscriber
@@ -201,7 +211,7 @@ export class WebRTCClient {
 
   addPeer(peerId: string) {
     if (this.peerConnections[peerId]) {
-      console.log('WebRTCClient.addPeer() Attempted to add an existent peer');
+      console.error('WebRTCClient.addPeer() Attempted to add an existent peer', peerId, this.peerConnections);
       return;
     }
 
@@ -211,9 +221,11 @@ export class WebRTCClient {
     this.peerConnections[peerId].onnegotiationneeded = () => this.onnegotiationneeded(peerId);
     this.peerConnections[peerId].ontrack = (event) => this.ontrack(peerId, event);
     this.signalingChannel.onmessage = (msg) => this.onmessage(peerId, msg);
+
+    console.log(`WebRTCClient.addPeer() ${peerId} added succesfully.`, this.peerConnections);
   }
 
   removePeer(id: string) {
-    
+    // TBD
   }
 }

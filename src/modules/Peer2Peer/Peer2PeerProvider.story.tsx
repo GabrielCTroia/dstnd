@@ -8,11 +8,11 @@ import { VideoChat } from '../VideoChat';
 storiesOf('Peer2Peer', module)
   .add('default', () => (
     <Peer2PeerProvider
-      wssUrl="ws://127.0.0.1:7777/ws"
+      wssUrl="ws://127.0.0.1:7777"
       iceServersURLs={[
         'stun:stun.ideasip.com',
       ]}
-      render={({ joinRoom, start, peerStatus, localStream, remoteStreams }) => (
+      render={({ joinRoom, start, stop, peerStatus, localStream, remoteStreams }) => (
         <>
           {peerStatus.joined_room 
           ? (
@@ -34,7 +34,7 @@ storiesOf('Peer2Peer', module)
                   ? (
                     <Button
                       title="Stop Chat"
-                      onPress={start}
+                      onPress={stop}
                       color="red"
                     />
                   ) 
@@ -51,9 +51,10 @@ storiesOf('Peer2Peer', module)
                     height: 200,
                     display: 'flex',
                     flexDirection: 'row',
+                    marginBottom: 60,
                   }}>
                     <VideoChat
-                      title={`Local`}
+                      title={peerStatus.me}
                       stream={localStream}
                     />
                 </View>
@@ -63,10 +64,10 @@ storiesOf('Peer2Peer', module)
                 display: 'flex',
                 flexDirection: 'row',
               }}>
-                {remoteStreams?.map((stream, index) => (
+                {Object.values(remoteStreams || {}).map(({peerId, stream}) => (
                   <VideoChat
-                    key={index}
-                    title={`Remote ${index}`}
+                    key={peerId}
+                    title={peerId}
                     stream={stream}
                   />
                 ))}
@@ -98,7 +99,7 @@ storiesOf('Peer2Peer', module)
                   >
                     <Button
                       title={`Join ${room} Room`}
-                      onPress={() => joinRoom({roomId: room, peerId: peerStatus.me})}
+                      onPress={() => joinRoom(room)}
                       color="orange"
                     />
                   </View>

@@ -9,6 +9,10 @@ enum PubSubChannels {
 export class LocalStreamClient {
   private stream?: MediaStream;
 
+  hasStarted() {
+    return !!this.stream;
+  }
+
   async start() {
     if (this.stream) {
       return this.stream;

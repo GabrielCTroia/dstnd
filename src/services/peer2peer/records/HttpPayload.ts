@@ -2,6 +2,8 @@ import * as io from 'io-ts';
 import { peerNetworkRefreshPayloadContent } from './SignalingPayload';
 
 
+
+// @Deprecate this most likely
 export const joinRoomRequestPayload = io.type({
   room_id: io.string,
   peer_id: io.string,
