@@ -8,7 +8,8 @@ import { VideoChat } from '../VideoChat';
 storiesOf('Peer2Peer', module)
   .add('default', () => (
     <Peer2PeerProvider
-      wssUrl="ws://127.0.0.1:7777"
+      // wssUrl="ws://127.0.0.1:7777"
+      wssUrl="wss://dstnd-server.herokuapp.com"
       iceServersURLs={[
         'stun:stun.ideasip.com',
       ]}

@@ -32,7 +32,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <WebSocketProvider 
+      {/* <WebSocketProvider 
         url="ws://127.0.0.1:7777/ws"
         // url="wss://b16fc48c.ngrok.io/ws"
         onMessage={(e) => {
@@ -115,7 +115,7 @@ export default function App() {
             <VideoChat rtc={rtc} />
           </>
         )}
-      />
+      /> */}
     </View>
   );
 }
